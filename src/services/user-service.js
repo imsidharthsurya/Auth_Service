@@ -18,6 +18,25 @@ class UserService{
         }
     }
 
+    async isAuthenticated(token){
+        try{
+            const response=this.verifyToken(token);
+            if(!response){
+                throw {error:"Invalid token"};
+            }
+            //this will give us user with email & id object
+            //since a/c can be deleted so search for that user
+            const user=await this.userRepository.getById(response.id);
+            if(!user){
+                throw {error:"no user found with this token"};
+            }
+            return user.id;
+        }catch(err){
+            console.log("error happened at user service layer while authenticating, ",err);
+            throw err;
+        }
+    }
+
     async signIn(email,password){
         try{
             //step1: fetch the user using email
