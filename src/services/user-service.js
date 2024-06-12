@@ -1,4 +1,6 @@
 const UserRepository=require("../repository/user-repository");
+var jwt = require('jsonwebtoken');
+const {JWT_KEY}=require("../config/serverConfig")
 
 class UserService{
     constructor(){
@@ -12,6 +14,26 @@ class UserService{
             return res;
         }catch(err){
             console.log("error happened at user service layer, ",err);
+            throw err;
+        }
+    }
+
+    createToken(user){
+        try{
+            console.log("jwt key is ",JWT_KEY);
+            const token=jwt.sign(user,JWT_KEY,{expiresIn:'1d'});
+            return token;
+        }catch(err){
+            console.log("error happened at creating token, ",err);
+            throw err;
+        }
+    }
+    verifyToken(token){
+        try{
+            const response=jwt.verify(token,JWT_KEY);
+            return response;
+        }catch(err){
+            console.log("error happened at verifying token, ",err);
             throw err;
         }
     }
