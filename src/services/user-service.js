@@ -18,6 +18,25 @@ class UserService{
         }
     }
 
+    async signIn(email,password){
+        try{
+            //step1: fetch the user using email
+            const user=await this.userRepository.getByEmail(email);
+            //step2: now compare the password
+            const checkPwd=this.checkPassword(password,user.password);
+            if(!checkPwd){
+                //ie. pwd not valid
+                console.log("password doesn't match")
+                throw {error:"Incorrect Password"};
+            }
+            //if pwd valid then step3: create token & return 
+            const token=this.createToken({email:user.email,id:user.id});
+            return token;
+        }catch(err){
+            console.log("error happened at user service layer while signIn, ",err);
+            throw err;
+        }
+    }
     createToken(user){
         try{
             console.log("jwt key is ",JWT_KEY);
