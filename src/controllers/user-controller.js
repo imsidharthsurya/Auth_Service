@@ -61,8 +61,28 @@ const isAuthenticated=async (req,res)=>{
         })
     }
 }
+
+const isAdmin=async (req,res)=>{
+    try{
+        const result=await userService.isAdmin(req.body.userId);
+        return res.status(200).json({
+            data:result,
+            success:true,
+            message:"Admin access result fetched successfully",
+            err:{}
+        })
+    }catch(err){
+        return res.status(500).json({
+            data:{},
+            success:false,
+            message:"Unable to check for admin access",
+            err:err
+        })
+    }
+}
 module.exports={
     create,
     signIn,
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }

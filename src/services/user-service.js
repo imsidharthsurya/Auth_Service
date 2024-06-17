@@ -85,6 +85,15 @@ class UserService{
             throw err;
         }
     }
+
+    async isAdmin(userId){
+        try{
+            return await this.userRepository.isAdmin(userId);
+        }catch(err){
+            console.log("error happened at comparing password, ",err);
+            throw err;
+        }
+    }
 }
 
 module.exports=UserService

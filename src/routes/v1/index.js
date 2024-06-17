@@ -10,4 +10,6 @@ router.post('/signup',authValidateMiddleware.authParameterValidateMiddleware,use
 router.post('/signin',authValidateMiddleware.authParameterValidateMiddleware,userController.signIn);
 
 router.get('/isauthenticate',userController.isAuthenticated);
+
+router.get('/isadmin',authValidateMiddleware.validateIsAdmin,userController.isAdmin)
 module.exports=router

@@ -12,6 +12,19 @@ const authParameterValidateMiddleware=(req,res,next)=>{
     next();
 }
 
+const validateIsAdmin=(req,res,next)=>{
+    if(!req.body.userId){
+        return res.status(400).json({
+            data:{},
+            success:false,
+            message:"Missing userId from body",
+            err:"Unable to check for admin access"
+        })
+    }
+    next();
+}
+
 module.exports={
-    authParameterValidateMiddleware
+    authParameterValidateMiddleware,
+    validateIsAdmin
 }

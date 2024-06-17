@@ -3,6 +3,7 @@ const app=express();
 const apiRoutes=require("./routes/index")
 const {SYNC_DB,PORT}=require("./config/serverConfig")
 const db=require("./models/index")
+const {User,Role}=require("./models/index")
 
 const prepareAndStartServer=async()=>{
 
@@ -13,6 +14,7 @@ const prepareAndStartServer=async()=>{
         if(SYNC_DB){
             await db.sequelize.sync({ alter: true });
         }
+        
         console.log(`server is running on port ${PORT}`)
     })
 }
