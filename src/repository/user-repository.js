@@ -1,6 +1,7 @@
 const ValidationError= require("../utils/validation-error");
 const {User,Role}=require("../models/index");
 const ClientError = require("../utils/client-error");
+const {StatusCodes}=require("http-status-codes")
 
 class UserRepository{
 
@@ -56,7 +57,7 @@ class UserRepository{
                 throw new ClientError('AttributeNotFound',
                 'Invalid email sent in the request',
                 'Please check the email as there is no such record with this email',
-                404)
+                StatusCodes.NOT_FOUND)
             }
             return user;
         }catch(err){
