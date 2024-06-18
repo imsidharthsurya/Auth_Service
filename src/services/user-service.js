@@ -2,19 +2,23 @@ const UserRepository=require("../repository/user-repository");
 var jwt = require('jsonwebtoken');
 const {JWT_KEY}=require("../config/serverConfig")
 const bcrypt = require('bcrypt');
+const AppErrors = require("../utils/error-handler");
 class UserService{
     constructor(){
         this.userRepository=new UserRepository();
     }
 
     async create(data){
-        console.log("req body in service layer ",data)
+        // console.log("req body in service layer ",data)
         try{
             const res=await this.userRepository.create(data);
             return res;
         }catch(err){
             console.log("error happened at user service layer, ",err);
-            throw err;
+            if(err.name=="SequelizeValidationError"){
+                throw err;
+            }
+            throw new AppErrors('ServerError','Something went wrong in service','logical issue found',500)
         }
     }
 
