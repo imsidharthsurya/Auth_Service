@@ -33,11 +33,11 @@ const signIn=async(req,res)=>{
             err:{}
         })
     }catch(err){
-        return res.status(500).json({
+        return res.status(err.statusCode).json({
             data:{},
             success:false,
-            message:"Unable to signIn",
-            err:err
+            message:err.message,
+            err:err.explanation
         })
     }
 }

@@ -1,5 +1,6 @@
 const ValidationError= require("../utils/validation-error");
-const {User,Role}=require("../models/index")
+const {User,Role}=require("../models/index");
+const ClientError = require("../utils/client-error");
 
 class UserRepository{
 
@@ -51,9 +52,16 @@ class UserRepository{
                     email:userEmail
                 }
             })
+            if(!user){
+                throw new ClientError('AttributeNotFound',
+                'Invalid email sent in the request',
+                'Please check the email as there is no such record with this email',
+                404)
+            }
             return user;
         }catch(err){
-            console.log("error happened at user repository");
+            
+            console.log("error happened at user repository for get by email ",err);
             throw err;
         }
     }

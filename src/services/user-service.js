@@ -56,6 +56,10 @@ class UserService{
             const token=this.createToken({email:user.email,id:user.id});
             return token;
         }catch(err){
+            if(err.name="AttributeNotFound"){
+                console.log("Attribute not found service");
+                throw err;
+            }
             console.log("error happened at user service layer while signIn, ",err);
             throw err;
         }
